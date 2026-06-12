@@ -11,17 +11,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Get Date
-      id: get-date
-      run: |
-        echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
-
-    - name: Cache Buildozer global directory
-      uses: actions/cache@v4
-      with:
-        path: ~/.buildozer
-        key: buildozer-global-${{ runner.os }}-${{ steps.get-date.outputs.date }}
-
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -34,16 +23,7 @@ jobs:
         pip install --upgrade pip
         pip install --upgrade buildozer cython kivy plyer ffpyplayer
 
-    - name: Initialize Buildozer
-      run: |
-        yes | buildozer init
-        sed -i 's/title = My Application/title = oisuvedit/g' buildozer.spec
-        sed -i 's/package.name = myapp/package.name = oisuvedit/g' buildozer.spec
-        sed -i 's/requirements = .*/requirements = kivy,plyer,ffpyplayer/g' buildozer.spec
-        sed -i 's/#android.permissions = .*/android.permissions = READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE/g' buildozer.spec
-        sed -i 's/#android.api = .*/android.api = 33/g' buildozer.spec
-
-    - name: Build Android APK
+    - name: Build Android APK with Existing Spec
       run: |
         yes | buildozer android debug
 
