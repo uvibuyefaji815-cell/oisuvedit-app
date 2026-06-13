@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -16,14 +16,22 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Install dependencies
+    - name: Install Android Build Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libsqlite3-dev tcl-dev tk-dev libgdbm-dev libc6-dev libbz2-dev zlib1g-dev libssl-dev libffi-dev libgpm2 xclip xsel
-        pip install --upgrade pip
-        pip install --upgrade buildozer cython kivy plyer ffpyplayer
+        sudo apt-get install -y --no-install-recommends \
+          build-essential ccache git libffi-dev libssl-dev \
+          libsqlite3-dev tcl-dev tk-dev libgdbm-dev libc6-dev \
+          libbz2-dev zlib1g-dev openjdk-17-jdk unzip zip \
+          autoconf automake libtool pkg-config patch altcpp
 
-    - name: Build Android APK with Existing Spec
+    - name: Install Python Tools
+      run: |
+        pip install --upgrade pip virtualenv
+        pip install cython==0.29.33
+        pip install kivy plyer ffpyplayer buildozer
+
+    - name: Build Android APK
       run: |
         yes | buildozer android debug
 
