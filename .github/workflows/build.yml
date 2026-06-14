@@ -21,16 +21,22 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential ccache git libffi-dev libssl-dev \
           libsqlite3-dev openjdk-17-jdk unzip zip autoconf automake libtool \
-          pkg-config lld
+          pkg-config lld cmake matrixssl libpcre3-dev
+        sudo apt-get install -y ffmpeg
 
     - name: Install Python Dependencies
       run: |
-        pip install --upgrade pip virtualenv
+        pip install --upgrade pip virtualenv setuptools
         pip install cython==0.29.33
         pip install kivy plyer buildozer
 
+    - name: Set Environment Variables
+      run: |
+        echo "APP_ANDROID_ARCHS=arm64-v8a" >> $GITHUB_ENV
+
     - name: Build Android APK
       run: |
+        # স্বয়ংক্রিয়ভাবে অ্যান্ড্রয়েডের শর্তাবলী মেনে নেওয়ার জন্য
         yes | buildozer android debug
 
     - name: Upload APK Artifact
