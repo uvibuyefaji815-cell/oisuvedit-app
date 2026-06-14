@@ -1,15 +1,14 @@
 [app]
-title = oisuvedit
-package.name = oisuvedit
+title = oisuvedit Pro
+package.name = oisuveditpro
 package.domain = org.sujan
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 version = 0.1
-requirements = python3,kivy,plyer,ffpyplayer
+requirements = python3,kivy,plyer,ffmpeg
 orientation = portrait
-osx.kivy_version = 2.1.0
 fullscreen = 1
-android.permissions = READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE
+android.permissions = READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE,INTERNET
 android.api = 33
 android.minapi = 21
 android.ndk = 25b
